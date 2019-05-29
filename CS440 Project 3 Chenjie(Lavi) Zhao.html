@@ -1,0 +1,203 @@
+
+<!-- saved from url=(0067)http://www.cs.bu.edu/fac/betke/cs440/restricted/p1/p1-template.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> CS440 PA3 Chenjie(Lavi) Zhao  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+
+<body>
+<center>
+<a href="http://www.bu.edu/"><img border="0" src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/bu-logo.gif" width="119" height="120"></a>
+</center>
+
+<h1>Project 3: 4x4x4 Tic-Tac-Toe Game</h1>
+<p> 
+ CS 440/640 Programming Assignment 3 <br>
+ Chenjie(Lavi) Zhao <br>
+  4/22/2019
+</p>
+
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+  The goal of this project is to implement an algorithm to win a 4x4x4 tic-ta-toe game 
+  using minimax and alpha-beta pruning technique. Minimax algorithm needs to be implemented 
+  to provide the next move and alpha-beta pruning is implemented to reduce the game tree or 
+  search time. This project illustrates how minimax algorithm applies to a real life situation.
+</p>
+<p>
+  I assumed the rules the AI has to follow, in the order of importance, are:
+</p>
+<p>
+  “Rule 1: If the maximizing player has a winning move, take it.
+</p>
+<p>
+  Rule 2: If the minimizing player has a winning move, block it.
+</p>
+<p>
+  Rule 3: If the maximizing player can create two winning lines after this move, do it.”
+</p>
+<p>
+  The anticipated difficulty is figuring out a correct way to evaluate the board and set 
+  all the heuristic values for the game tree so that the algorithm will do exactly what the rules above dictates.
+</p>
+
+<hr>
+<h2> Method and Implementation </h2>
+<p>
+  I followed the pseudocode below from wikipedia to implement my minimax function.
+</p>
+<p> 
+<a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning"><img src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/AlphaBetaWiki.png"></a>
+</p>
+<p> Graphic Representation of Alpha-Beta Pruning </p>
+<p>
+<a href="https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html"><img src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/alphabetaTTT.png"></a>
+</p>
+
+<p>
+  The main back bone of my algorithm is minimax, evaluate and myAIAlgorithm functions in aiTicTacToe.java. 
+  myAIAlgorithm function helps generate a calculated next move using minimax function. 
+  In the minimax function, I implemented the recursive minimax algorithm with alpha-beta pruning. 
+  In the evaluate function, I specified the score system for a node in the game tree.
+</p>
+<p>
+  The score evaluation scheme is as follows:
+</p>
+<p>
+  <img src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/ScoreScheme.png">
+</p>
+<p>
+  Other minor helper functions included:
+  <ul>
+    <li>isEnded: Check the board to see if there's a win or a draw.</li>
+    <li>generateAllMoves: Generate a list of available positions on the current board.</li>
+    <li>initializeWinningLines: Find all 76 winning lines and put them in a list.</li>
+    <li>myRandomAlgorithm: Generate random next moves.</li>
+  </ul>
+</p>
+
+
+<hr>
+<h2>Experiments</h2>
+<h3>Experiment 1: AI vs. Random Move Generator</h3>
+<p> 
+  I modified the runTicTacToe class so that player 1 uses the AI algorithm I implemented with depth = 2 and player 
+  2 uses the random move generator that was provided to us in the skeleton code. Which player goes first is randomized. 
+  I repeated the game loop for 1000 times for each trial. I then evaluated the winning rates and efficiency 
+  for making a decision of player 1 under 3 trials. (Depth = 2 is used because it is sufficient enough to beat the random 
+  generator and uses significantly less time to make a decision)
+</p>
+<h3>Experiment 2: AI vs. AI under different depth and same heuristic function</h3>
+<p>
+  Both players use the AI algorithm I implemented. Player 1 calls minimax with depth = 3 and for player 2, depth = 2. 
+  Which player goes first is randomized. I repeated the game loop for 100 times for each trial. 
+  I then evaluated the winning rates of player 1 and efficiency of decision making under 3 trials.
+</p>
+
+
+<hr>
+<h2> Results</h2>
+
+<p>Experiment 1 Results</p>
+<p><img src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/exp1result.png"></p>
+
+<p>Experiment 2 Results</p>
+<p><img src="./CS440 Project 3 Chenjie(Lavi) Zhao_files/exp2result.png"></p>
+
+
+
+
+<hr>
+<h2> Discussion </h2>
+<p>
+From the experiment results, we can see that the method is very successful competing a random move generator as expected. On average, the algorithm with a depth of 2 was 
+sufficient to beat the random generator within 10 moves. The algorithm is successful competing against a version of itself with less depth as well. As 
+we can see that the competition always results in a first player win as expected, since the first player always does a deeper search than the second player.
+</p>
+<p> 
+Strengths:
+<ul>
+<li>Uses alpha-beta pruning to optimize running time</li>
+<li>Great performance against random move generators</li>
+</ul> </p>
+
+<p> 
+Weaknesses:
+<ul>
+<li>Very static response for a specific board</li>
+</ul>
+</p>
+
+<p> 
+Future Work:
+<ul>
+<li>Improve the algorithm so it detects potential fork(multiple winning line) in future moves</li>
+<li>Experiment with more different heuristic values and depths to find the perfect combination</li>
+</ul>
+</p>
+
+<hr>
+<h2> Conclusions </h2>
+
+<p>
+Game theory can be a substantial part of AI development. In this programming assignment, we experimented with minimax algorithm using alpha-beta 
+pruning. As we can see, with a depth of 2, the algorithm is already very successful with random move generator. However, more work can be done for it to 
+compete with another algorithm, such as experiment with more different heuristic values and depths to find the perfect combination. 
+</p>
+
+
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+<ol>
+<li>Qubic: 4 × 4 × 4 Tic-Tac-Toe, Author(s): Oren Patashnik, Source: Mathematics Magazine, Vol. 53, No. 4 (Sep., 1980), pp. 202-216, Published by: Taylor & Francis, Ltd. on behalf of the Mathematical Association of America, Stable URL: https://www.jstor.org/stable/2689613, Accessed: 21-04-2019 22:44 UTC
+</li>
+<li><a href="https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html">https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html</a>
+Date of Access: 4/24/2019
+</li>
+<li><a href="http://www.cs.bu.edu/fac/betke/cs440/restricted/p3/Home.html">http://www.cs.bu.edu/fac/betke/cs440/restricted/p3/Home.html</a>
+Date of Access: 4/24/2019
+</li>
+<li><a href="https://www.geeksforgeeks.org/">https://www.geeksforgeeks.org/</a>
+Date of Access: 4/24/2019
+</li>
+
+</ol>
+</p>
+
+<hr>
+</div>
+
+
+
+
+
+</body></html>
